@@ -9,3 +9,10 @@ host=host.docker.internal
 ignore-table=_migration_history
 port=3306
 user=root
+
+[dev]
+flavor=mysql:8.0
+host=host.docker.internal
+ignore-table=_migration_history
+port=3307
+user=root
