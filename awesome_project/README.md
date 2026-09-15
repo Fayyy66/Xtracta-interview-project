@@ -276,8 +276,4 @@ To stop the databases while preserving their named volumes:
 
 Running `./db.sh down -v` also deletes the database volumes and should only be used when intentionally rebuilding the assessment from the setup SQL.
 
-## References
 
-- [`schema-data-migration` repository](https://github.com/Beim/schema-data-migration)
-- [Official step-by-step guide](https://github.com/Beim/schema-data-migration/blob/main/docs/step_by_step_guide.md)
-- [Skeema documentation](https://www.skeema.io/docs/)
