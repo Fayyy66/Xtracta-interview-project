@@ -1,0 +1,22 @@
+{
+    "version": "0002",
+    "name": "seed_user_table",
+    "author": "",
+    "type": "data",
+    "change": {
+        "forward": {
+            "type": "sql",
+            "sql": "INSERT INTO `user` (`id`, `name`, `address`) VALUES (1, 'foo', 'bar');"
+        },
+        "backward": {
+            "type": "sql",
+            "sql": "DELETE FROM `user` WHERE `id`=1;"
+        }
+    },
+    "dependencies": [
+        {
+            "version": "0001",
+            "name": "add_address_to_user_tab"
+        }
+    ]
+}
