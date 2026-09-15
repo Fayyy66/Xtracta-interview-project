@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -eu
+
+REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+PROJECT_DIR="$REPOSITORY_ROOT/awesome_project"
+
+echo "Running sdm pre-commit checks"
+
+cd "$PROJECT_DIR"
+
+echo "> ./sdm.sh check integrity"
+./sdm.sh check integrity
+
+echo "> ./sdm.sh clean store --dry-run --skip-integrity"
+./sdm.sh clean store --dry-run --skip-integrity

@@ -25,11 +25,22 @@ if [ -z "$MYSQL_PWD" ]; then
   exit 1
 fi
 
+SDM_IMAGE="beim/schema-data-migration:latest"
+if [ "$(uname -m)" = "arm64" ]; then
+  SDM_IMAGE="awesome-sdm:0.6.4-arm64"
+  if ! "$DOCKER_BIN" image inspect "$SDM_IMAGE" >/dev/null 2>&1; then
+    "$DOCKER_BIN" build \
+      --file "$PROJECT_DIR/Dockerfile.sdm" \
+      --tag "$SDM_IMAGE" \
+      "$PROJECT_DIR"
+  fi
+fi
+
 exec "$DOCKER_BIN" run --rm \
-  --platform linux/amd64 \
+  --add-host host.docker.internal:host-gateway \
   --user "$(id -u):$(id -g)" \
   --volume "$PROJECT_DIR:/workspace" \
   --workdir /workspace \
   --env MYSQL_PWD="$MYSQL_PWD" \
-  beim/schema-data-migration:latest \
+  "$SDM_IMAGE" \
   sdm "$@"

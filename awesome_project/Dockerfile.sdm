@@ -1,0 +1,19 @@
+ARG SKEEMA_BUILD_PLATFORM=linux/arm64
+ARG SDM_BASE_PLATFORM=linux/amd64
+
+FROM --platform=${SKEEMA_BUILD_PLATFORM} alpine:3.22 AS skeema
+
+ARG SKEEMA_VERSION=1.12.3
+ARG SKEEMA_SHA256=036b5afe43110db73db99c48e831ed83631d926f5bbf1b33ff9aada440753c45
+
+RUN apk add --no-cache ca-certificates curl
+RUN curl --fail --location \
+      "https://github.com/skeema/skeema/releases/download/v${SKEEMA_VERSION}/skeema_${SKEEMA_VERSION}_linux_arm64.tar.gz" \
+      --output /tmp/skeema.tar.gz \
+    && echo "${SKEEMA_SHA256}  /tmp/skeema.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/skeema.tar.gz -C /usr/local/bin skeema \
+    && chmod 0755 /usr/local/bin/skeema
+
+FROM --platform=${SDM_BASE_PLATFORM} beim/schema-data-migration@sha256:13ac9b079b48ec9e3aa090780f0e6517011a8ada201141059b8e4916db237bc8
+
+COPY --from=skeema /usr/local/bin/skeema /usr/local/bin/skeema

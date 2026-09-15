@@ -1,0 +1,11 @@
+default-character-set=utf8mb4
+default-collation=utf8mb4_unicode_ci
+generator=skeema:1.12.3-community
+schema=awesome_db
+
+[production]
+flavor=mysql:8.0
+host=host.docker.internal
+ignore-table=_migration_history
+port=3306
+user=root
